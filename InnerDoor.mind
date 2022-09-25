@@ -1,0 +1,59 @@
+<mind fontName="Arial" fontSize="12" fontStyle="0">	<mod border="0" color="0099CC" icons="" title="InnerDoor" x="-24" y="-11">		<text>+ InnerDoor:&#13;
+- Cria uma conexão entre um site e o PC, permitindo editar arquivos locais.&#13;
+</text>	</mod>	<mod border="0" color="29CCFF" icons="" title="Server" x="-9" y="-4">		<text>+ Server:&#13;
+- Um programa local que abre um server e escuta por requests.&#13;
+. A extensão envia requests e ele responde.&#13;
+. Feito com Java.&#13;
+</text>	</mod>	<mod border="0" color="29CCFF" icons="" title="Extension" x="-24" y="-4">		<text>+ Extension:&#13;
+- Serve de ´middle men´ entre um site e o Server.&#13;
+- Um ´inject.js´ é injetado em todo site(`http://`, `https://`, etc), incluindo os `file://`.&#13;
+. Injetado antes do site carregar.&#13;
+- O site pode, então, chamar por innerDoor.´função()´.&#13;
+. A função chama pelo ´service.js´, que faz o request.&#13;
+</text>	</mod>	<mod border="0" color="0099CC" icons="" title="Estrutura" x="-24" y="-7">		<text>+ Estrutura:&#13;
+</text>	</mod>	<mod border="0" color="29CCFF" icons="" title="Site" x="-32" y="-4">		<text>+ Site:&#13;
+- Desde um arquivo ´HTML´ até um site online, este pode chamar por comandos do ´InnerDoor´.&#13;
+</text>	</mod>	<mod border="0" color="0099CC" icons="" title="Possibilidades" x="-36" y="-11">		<text>+ Possibilidades:&#13;
+- O Server pode chamar por uma instância de um programa e o controlar.&#13;
+. Ele pode chamar por um programa para que este edite um arquivo.&#13;
+</text>	</mod>	<mod border="0" color="0099CC" icons="" title="Segurança" x="-13" y="-11">		<text>* Segurança:&#13;
+- São 3 keys: Um no Server, um na Extension, e um no Site. Todos deve ser iguais para que tudo funcione.&#13;
+- A key deve ser personalizável.&#13;
++ Server:&#13;
+- Apenas responde se enviado a key correta.&#13;
+. Se houver mais do que 20 tentativas com uma chave incorreta em 3 minutos, o programa fecha(Ou passa a ignorar o IP).&#13;
++ Extension:&#13;
+- Apenas responde se enviado a key correta.&#13;
+- O ´inject.js´ *não possúi a key*, apenas o ´service.js´ a possúi, mas *não a envia* e sim a usa para comparar com a key que ´inject.js´ enviar.&#13;
+. O ´inject.js´ *deve* saber qual é a chave e a enviar, e ´service.js´ apenas responde se for correta.&#13;
++ Site:&#13;
+- Deve conhecer a key, definida em algum lugar que esteja acessível por todo o site.&#13;
+- Uma extensão maliciosa pode acessar o site e usar a key que tem para fazer suas alterações.&#13;
+. Uma solução seria usar um nome para a key que não seja óbvio, para que não seja usada.&#13;
+|. Mas uma simples função que apenas facilita as coisas, já tendo a key sendo usada, pode ser chamada.&#13;
+</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="inject.js" x="-27" y="2">		<text>+ ´inject.js´:&#13;
+- Injeta uma constante:&#13;
+:[	const innerDoor={&#13;
+		readFile:(key, listener)=&gt;{&#13;
+			chrome.runtime.sendMessage({command: "read", accessKey: key},listener);&#13;
+		}&#13;
+		...&#13;
+	}]{###`:`}&#13;
+. Ela pode ser chamada de forma simples:&#13;
+:[	const key="lskgMIdmFOwarteSdsFamshc";&#13;
+	innerDoor.readFile(key,(response)=&gt;{...});]{###`:`}&#13;
+- Basicamente envia messages para o ´service.js´.&#13;
+</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="manifest.json" x="-25" y="-1">		<text>+ manifest.json:&#13;
+- Injeta ´inject.js´.&#13;
+. Em todos os sites.&#13;
+. Antes do documento carregar.&#13;
+- Tem um service ´service.js´.&#13;
+- Conectar a um server localhost: [Can't connect to localhost from Chrome extension](https://stackoverflow.com/questions/7668502/cant-connect-to-localhost-from-chrome-extension).&#13;
+. Todos os passos: [How to call localhost from chrome extension](https://www.adrianhorning.com/how-to-call-localhost-from-chrome-extension-manifest-3/).&#13;
+</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="service.js" x="-19" y="2">		<text>+ ´service.js´:&#13;
+- Recebe messages do ´inject.js´ e faz requests ao Server.</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="InnerDoorServer.jar" x="-13" y="-1">		<text>+ ´InnerDoorServer.jar´:&#13;
+- Abre um server e escuta por requests.&#13;
+- Se não receber uma chave, não responde.&#13;
+- Para ser executado, deve ser chamado por um atalho que define a sua chave a qual responde. Sem a chave, não sequer inicia.&#13;
+</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="site.html" x="-34" y="-1">		<text/>	</mod>	<cox border="0" pai="0" son="3" width="2">		<text/>	</cox>	<cox border="0" pai="0" son="5" width="0">		<text/>	</cox>	<cox border="0" pai="0" son="6" width="2">		<text/>	</cox>	<cox border="0" pai="3" son="1" width="0">		<text/>	</cox>	<cox border="0" pai="1" son="10" width="0">		<text/>	</cox>	<cox border="0" pai="3" son="2" width="0">		<text/>	</cox>	<cox border="0" pai="2" son="8" width="0">		<text/>	</cox>	<cox border="0" pai="3" son="4" width="0">		<text/>	</cox>	<cox border="0" pai="4" son="11" width="0">		<text/>	</cox>	<cox border="0" pai="8" son="7" width="0">		<text/>	</cox>	<cox border="1" pai="7" son="9" width="0">		<text/>	</cox>	<cox border="1" pai="11" son="7" width="0">		<text/>	</cox>	<cox border="0" pai="8" son="9" width="0">		<text/>	</cox>	<cox border="1" pai="9" son="10" width="0">		<text/>	</cox>
+</mind>
