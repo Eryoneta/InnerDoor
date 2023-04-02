@@ -1,0 +1,25 @@
+{
+	"manifest_version": 3,
+	"name": "InnerDoor",
+	"version": "1.0.0",
+	"author": "Yo",
+	"description": "Comunicates between a server and a internet application.",
+	"background": {
+		"service_worker": "service.js"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [
+				"injection.js"
+			],
+			"all_frames": false,
+			"run_at": "document_start"
+		}
+	],
+	"permissions": [
+		"tabs"
+	]
+}
