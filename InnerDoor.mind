@@ -14,23 +14,25 @@
 </text>	</mod>	<mod border="0" color="29CCFF" icons="" title="Site" x="-32" y="-4">		<text>+ Site:&#13;
 - Desde um arquivo ´HTML´ até um site online, este pode chamar por comandos do ´InnerDoor´.&#13;
 </text>	</mod>	<mod border="0" color="0099CC" icons="" title="Possibilidades" x="-36" y="-11">		<text>+ Possibilidades:&#13;
+- O ´Server´ pode editar um arquivo local.&#13;
+. O arquivo pode ser o próprio ´Site´ que o chamara, editando a sí mesmo!&#13;
+. O ´Site´ pode basicamente ser o "visual" de arquivos locais!&#13;
 - O Server pode chamar por uma instância de um programa e o controlar.&#13;
 . Ele pode chamar por um programa para que este edite um arquivo.&#13;
 </text>	</mod>	<mod border="0" color="0099CC" icons="" title="Segurança" x="-13" y="-11">		<text>* Segurança:&#13;
-- São 3 keys: Um no Server, um na Extension, e um no Site. Todos deve ser iguais para que tudo funcione.&#13;
-- A key deve ser personalizável.&#13;
-+ Server:&#13;
-- Apenas responde se enviado a key correta.&#13;
-. Se houver mais do que 20 tentativas com uma chave incorreta em 3 minutos, o programa fecha(Ou passa a ignorar o IP).&#13;
-+ Extension:&#13;
-- Apenas responde se enviado a key correta.&#13;
-- O ´inject.js´ *não possúi a key*, apenas o ´service.js´ a possúi, mas *não a envia* e sim a usa para comparar com a key que ´inject.js´ enviar.&#13;
-. O ´inject.js´ *deve* saber qual é a chave e a enviar, e ´service.js´ apenas responde se for correta.&#13;
-+ Site:&#13;
-- Deve conhecer a key, definida em algum lugar que esteja acessível por todo o site.&#13;
-- Uma extensão maliciosa pode acessar o site e usar a key que tem para fazer suas alterações.&#13;
-. Uma solução seria usar um nome para a key que não seja óbvio, para que não seja usada.&#13;
-|. Mas uma simples função que apenas facilita as coisas, já tendo a key sendo usada, pode ser chamada.&#13;
+- Existe apenas 2 keys: Um no ´Server´ e um no ´Site´.&#13;
+. Ela pode ser alterada se necessário.&#13;
++ ´Server´:&#13;
+- Ao ser iniciado, requer um parâmetro de `port` e `key`. Sem eles, é automaticamente terminado.&#13;
+. Podem ser inseridos com um atalho.&#13;
+- Se receber mais de 20 tentativas com uma ´key´ incorreta, ele se autotermina por segurança.&#13;
+. Emite um aviso antes.&#13;
++ ´Extension´:&#13;
+- Não possúi a key, servindo apenas para conectar o ´Site´ ao ´Server´.&#13;
++ ´Site´:&#13;
+- Deve conhecer a ´key´ e a enviar para cada request que fizer.&#13;
+- Uma extensão maliciosa não poderia acessar a função que usa a chave?&#13;
+. Em cada request, a ´key´ é escrita diretamente, sem uma variável sendo envolvida.&#13;
 </text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="inject.js" x="-27" y="2">		<text>+ ´inject.js´:&#13;
 - Injeta uma constante:&#13;
 :[	const innerDoor={&#13;
@@ -54,6 +56,15 @@
 - Recebe messages do ´inject.js´ e faz requests ao Server.</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="InnerDoorServer.jar" x="-13" y="-1">		<text>+ ´InnerDoorServer.jar´:&#13;
 - Abre um server e escuta por requests.&#13;
 - Se não receber uma chave, não responde.&#13;
-- Para ser executado, deve ser chamado por um atalho que define a sua chave a qual responde. Sem a chave, não sequer inicia.&#13;
-</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="site.html" x="-34" y="-1">		<text/>	</mod>	<cox border="0" pai="0" son="3" width="2">		<text/>	</cox>	<cox border="0" pai="0" son="5" width="0">		<text/>	</cox>	<cox border="0" pai="0" son="6" width="2">		<text/>	</cox>	<cox border="0" pai="3" son="1" width="0">		<text/>	</cox>	<cox border="0" pai="1" son="10" width="0">		<text/>	</cox>	<cox border="0" pai="3" son="2" width="0">		<text/>	</cox>	<cox border="0" pai="2" son="8" width="0">		<text/>	</cox>	<cox border="0" pai="3" son="4" width="0">		<text/>	</cox>	<cox border="0" pai="4" son="11" width="0">		<text/>	</cox>	<cox border="0" pai="8" son="7" width="0">		<text/>	</cox>	<cox border="1" pai="7" son="9" width="0">		<text/>	</cox>	<cox border="1" pai="11" son="7" width="0">		<text/>	</cox>	<cox border="0" pai="8" son="9" width="0">		<text/>	</cox>	<cox border="1" pai="9" son="10" width="0">		<text/>	</cox>
+- Para ser executado, deve ser chamado por um atalho que define a sua ´key´ a qual responde. Sem a ´key´, não sequer inicia.&#13;
+</text>	</mod>	<mod border="0" color="FFFFFF" icons="" title="site.html" x="-34" y="-1">		<text/>	</mod>	<mod border="0" color="0099CC" icons="" title="Comandos" x="-35" y="-8">		<text>* Comandos:&#13;
++ `innerDoor.readFile(key, port, path, listener)`:&#13;
+- Retorna o conteúdo de um arquivo presente em `path`.&#13;
++ `innerDoor.writeFile(key, port, path, content, listener)`:&#13;
+- Escreve `content` em um arquivo em `path`.&#13;
++ `innerDoor.startProgram(key, port, path, listener)`:&#13;
+- Inicia um programa em `path`.&#13;
++ `innerDoor.startProgramWithFile(key, port, path, filePath, listener)`:&#13;
+- Inicia um programa em `path` com este abrindo um arquivo em `filePath`.&#13;
+</text>	</mod>	<cox border="0" pai="0" son="3" width="2">		<text/>	</cox>	<cox border="0" pai="0" son="5" width="0">		<text/>	</cox>	<cox border="0" pai="0" son="6" width="2">		<text/>	</cox>	<cox border="0" pai="3" son="1" width="0">		<text/>	</cox>	<cox border="0" pai="1" son="10" width="0">		<text/>	</cox>	<cox border="0" pai="3" son="2" width="0">		<text/>	</cox>	<cox border="0" pai="2" son="8" width="0">		<text/>	</cox>	<cox border="0" pai="3" son="4" width="0">		<text/>	</cox>	<cox border="0" pai="4" son="11" width="0">		<text/>	</cox>	<cox border="0" pai="5" son="12" width="0">		<text/>	</cox>	<cox border="0" pai="8" son="7" width="0">		<text/>	</cox>	<cox border="1" pai="7" son="9" width="0">		<text/>	</cox>	<cox border="1" pai="11" son="7" width="0">		<text/>	</cox>	<cox border="0" pai="8" son="9" width="0">		<text/>	</cox>	<cox border="1" pai="9" son="10" width="0">		<text/>	</cox>
 </mind>

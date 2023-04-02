@@ -3,7 +3,7 @@
 	"name": "InnerDoor",
 	"version": "1.0.0",
 	"author": "Yo",
-	"description": "Comunicates between a server and a internet application.",
+	"description": "Comunicates between a local server and a web application.",
 	"background": {
 		"service_worker": "service.js"
 	},
